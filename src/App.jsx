@@ -1,10 +1,21 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { NewTodoForm } from './NewTodoForm'
 import { TodoList } from './TodoList'
 import './style.css'
 
+//  get data from json local storage and return it as default value
 export default function App() {
-  const [todos, setTodos] = useState([])
+  const [todos, setTodos] = useState(() => {
+    const localValue = localStorage.getItem("ITEMS")
+    if (localValue == null) return []
+
+    return JSON.parse(localValue)
+  })
+
+  //  store the todos data in a local json storage. This function will run everytime the todos are modified
+  useEffect(() => {
+    localStorage.setItem('ITEMS', JSON.stringify(todos))
+  }, [todos])
 
   function addTodo(title) {
     setTodos((currentTodos) => {
