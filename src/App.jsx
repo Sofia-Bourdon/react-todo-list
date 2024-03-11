@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { NewTodoForm } from './NewTodoForm'
+import { TodoList } from './TodoList'
 import './style.css'
 
 export default function App() {
@@ -36,21 +37,7 @@ export default function App() {
   <>
   <NewTodoForm onSubmit={addTodo}/>
     <h1 className="header">Todo List</h1>
-    <ul className="list">
-      {/* rendering to the screen when there are no todos by short circuiting */}
-      {todos.length === 0 && "No items"}
-      {todos.map(todo => {
-        return  (
-        <li key={todo.id}>
-        <label>
-          <input type="checkbox" checked={todo.completed} onChange={e => toggleTodo(todo.id, e.target.checked)} />
-          {todo.title}
-        </label>
-        <button onClick={() => deleteTodo(todo.id)} className="btn btn-danger">Delete</button>
-      </li>
-      )
-      })}
-    </ul>
+    <TodoList todos={todos} toggleTodo={toggleTodo} deleteTodo={deleteTodo}/>
   </>
   )
 }
